@@ -16,31 +16,46 @@ import sys
 
 
 def suma(op1, op2):
-    return float(op1) + float(op2)
+    return op1 + op2
 
 
 def resta(op1, op2):
-    return float(op1) - float(op2)
+    return op1 - op2
 
 
 def multiplicacion(op1, op2):
-    return float(op1) * float(op2)
+    return op1 * op2
 
 
 def division(op1, op2):
-    return float(op1) / float(op2)
+    try:
+        return op1 / op2
+    except ZeroDivisionError:
+        print "Error al dividir entre 0"
+        sys.exit()
 
 
-if len(sys.argv) != 4:
-    print
-    sys.exit("Usage: $ python calculadora.py funcion operando1 operando2")
+if __name__ == "__main__":
 
+    if len(sys.argv) != 4:
+        print
+        sys.exit("Usage: $ python calculadora.py funcion operando1 operando2")
 
-operacion = sys.argv[1]
-operando1 = sys.argv[2]
-operando2 = sys.argv[3]
+    operacion = sys.argv[1]
+    operaciones_posibles = ["suma", "resta", "mult", "div"]
+    if operacion not in operaciones_posibles:
+        print "Error: " + operacion + " no es una operación válida."
+        print
+        sys.exit()
 
-try:
+    try:
+        operando1 = float(sys.argv[2])
+        operando2 = float(sys.argv[3])
+    except ValueError:
+        print "Error: el operando no es válido, introducir un número."
+        print
+        sys.exit()
+
     if operacion == "suma":
         print suma(operando1, operando2)
     elif operacion == "resta":
@@ -55,11 +70,3 @@ try:
         print "(suma, resta, mult y div)"
         print
         sys.exit()
-
-except ZeroDivisionError:
-    print "Error al dividir entre 0"
-    sys.exit()
-except ValueError:
-    print "Error: el operando no es un caracter válido, introducir un número."
-    print
-    sys.exit()
